@@ -5,6 +5,8 @@ import Counter from "./components/Counter.jsx";
 import AccountCard from "./components/AccountCard.jsx";
 import Panel from "./components/Panel.jsx";
 import Header from "./components/Header.jsx";
+import { transactions } from "./data/mockData.js";
+import TransactionRow from "./components/TransactionRow.jsx";
 
 function App() {
   // 화면이 렌더링 되기 위해 필요로 하는 값(data)을 적습니다.
@@ -40,21 +42,24 @@ function App() {
   // let showFullNo = true;
   const [showFullNo, setShowFullNo] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
+  const [hideAmount, setHideAmound] = useState(false);
   // return ( ) 바깥에서는 일반 자바스크립트처럼 // 로 주석을 적습니다.
   // return 뒤에 렌더링 될 부분을 적습니다.
   return (
     <>
-      <Counter />
+      {/* <Counter /> */}
       <Header />
-      <Clock />
-      <button onClick={() => setShowFullNo(!showFullNo)}>
+      <button className="btn-ghost" onClick={() => setShowFullNo(!showFullNo)}>
         {showFullNo ? "계좌번호 숨기기" : "계좌번호 보기"}
       </button>
-      <button onClick={() => setShowBalance(!showBalance)}>
-        {showBalance ? "금액 숨기기" : "금액 보기"}
+      <button
+        className="btn-ghost"
+        onClick={() => setShowBalance(!showBalance)}
+      >
+        {showBalance ? "금액 보기" : "금액 숨기기"}
       </button>
+      {/* <Clock /> */}
       <Panel title={"내 계좌"}>
-        <Counter />
         {accounts.map((account, index) => (
           <AccountCard
             key={index}
@@ -64,6 +69,26 @@ function App() {
             status={account.status}
             showFullNo={showFullNo}
             showBalance={showBalance}
+          />
+        ))}
+      </Panel>
+      <Panel title={"최근 거래"}>
+        <button
+          className="btn-ghost"
+          onClick={() => setHideAmound(!hideAmount)}
+        >
+          {hideAmount ? "금액 보기" : "금액 숨기기"}
+        </button>
+        {transactions.map((transaction, index) => (
+          <TransactionRow
+            key={index}
+            txType={transaction.txType}
+            amount={transaction.amount}
+            category={transaction.category}
+            memo={transaction.memo}
+            counterparty={transaction.counterparty}
+            txDatetime={transaction.txDatetime}
+            hideAmount={hideAmount}
           />
         ))}
       </Panel>

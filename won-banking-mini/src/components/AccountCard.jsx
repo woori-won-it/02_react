@@ -20,7 +20,7 @@ function AccountCard({
         {showFullNo ? accountNo : maskAccountNo(accountNo)}
       </p>
       <strong className="balance">
-        {showBalance ? formatWon(balance) : formatWonMasked(balance, true)}
+        {formatWonMasked(balance, showBalance)}
       </strong>
     </div>
   );
