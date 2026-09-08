@@ -7,9 +7,6 @@ function ExchangeRate() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
-
     // fetch는 API를 호출해서 data를 가져오는 JS의 비동기 함수
     fetch("https://open.er-api.com/v6/latest/USD")
       .then((res) => {
@@ -27,15 +24,19 @@ function ExchangeRate() {
       }); // 성공/실패와 관계없이 무조건 수행 후 종료
   }, [reloadKey]);
 
+  function handleReload() {
+    setLoading(true);
+    setError(null);
+    setReloadKey((key) => key + 1);
+  }
+
   if (loading) return <p className="muted">환율을 불러오는 중...</p>;
   if (error)
     return (
       <>
         <p className="muted">환율을 못 불러왔습니다</p>
         {/* reloadKey - useEffect의 결과를 넘깁니다. */}
-        <button onClick={() => setReloadKey((key) => key + 1)}>
-          다시 시도 {reloadKey}{" "}
-        </button>
+        <button onClick={handleReload}>다시 시도</button>
       </>
     );
   return (

@@ -1,12 +1,10 @@
 import { useState } from "react";
 import "./App.css";
 import Clock from "./components/Clock.jsx";
-import Counter from "./components/Counter.jsx";
 import AccountCard from "./components/AccountCard.jsx";
 import Panel from "./components/Panel.jsx";
 import Header from "./components/Header.jsx";
-import { accounts, transactions } from "./data/mockData.js";
-import TransactionRow from "./components/TransactionRow.jsx";
+import { accounts } from "./data/mockData.js";
 import TotalBalance from "./components/TotalBalance.jsx";
 import ExchangeRate from "./components/ExcahgeRate.jsx";
 import TransactionList from "./components/TransactionList.jsx";

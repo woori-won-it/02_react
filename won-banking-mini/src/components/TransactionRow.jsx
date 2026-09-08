@@ -1,4 +1,4 @@
-import { formatWon, formatWonMasked } from "../utils/format";
+import { formatWonMasked } from "../utils/format";
 
 function TransactionRow({
   txType,

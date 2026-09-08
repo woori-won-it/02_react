@@ -1,6 +1,6 @@
 // components/AccountCard.jsx
 import StatusBadge from "./StatusBadge";
-import { formatWon, maskAccountNo, formatWonMasked } from "../utils/format";
+import { maskAccountNo, formatWonMasked } from "../utils/format";
 
 function AccountCard({
   accountNo,
