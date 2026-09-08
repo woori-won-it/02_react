@@ -1,8 +1,11 @@
 // components/Panel.jsx
-function Panel({ title, children }) {
+function Panel({ title, action, children }) {
   return (
     <section className="panel">
-      <h2>{title}</h2>
+      <div className="panel-heading">
+        <h2>{title}</h2>
+        {action}
+      </div>
       {children}
     </section>
   );

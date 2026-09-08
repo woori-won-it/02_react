@@ -101,6 +101,17 @@ header h1 {
   margin: 0 0 8px;
 }
 
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.panel-heading h2 {
+  margin: 0;
+}
+
 /* 맨 위 총 자산 카드 */
 .total {
   background: var(--brand);
@@ -128,13 +139,17 @@ header h1 {
   border-bottom: 1px solid var(--line);
 }
 
-.toolbar + .tx-row {
+.transaction-list .tx-row:first-child {
   border-radius: 10px 10px 0 0;
 }
 
 .tx-row:last-child {
   border-bottom: none;
   border-radius: 0px 0px 10px 10px;
+}
+
+.transaction-list .tx-row:only-child {
+  border-radius: 10px;
 }
 
 .amount-out {
@@ -197,6 +212,24 @@ header h1 {
   margin-bottom: 10px;
 }
 
+.category-chips {
+  width: 100%;
+  min-width: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+  touch-action: none;
+  overscroll-behavior: contain;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-chips::-webkit-scrollbar {
+  display: none;
+}
+
 /* 필터 칩 하나 */
 .chip {
   background: #ffffff;
@@ -206,6 +239,17 @@ header h1 {
   font-size: 13px;
   cursor: pointer;
   color: var(--muted);
+}
+
+.category-chips .chip {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.category-chips.is-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 /* 현재 선택된 칩 */

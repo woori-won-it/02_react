@@ -9,6 +9,7 @@ import { accounts, transactions } from "./data/mockData.js";
 import TransactionRow from "./components/TransactionRow.jsx";
 import TotalBalance from "./components/TotalBalance.jsx";
 import ExchangeRate from "./components/ExcahgeRate.jsx";
+import TransactionList from "./components/TransactionList.jsx";
 
 function App() {
   // 화면이 렌더링 되기 위해 필요로 하는 값(data)을 적습니다.
@@ -74,27 +75,18 @@ function App() {
           />
         ))}
       </Panel>
-      <Panel title="최근 거래">
-        <div className="toolbar">
+      <Panel
+        title="최근 거래"
+        action={
           <button
             className="btn-ghost"
             onClick={() => setHideAmound(!hideAmount)}
           >
             {hideAmount ? "금액 보기" : "금액 숨기기"}
           </button>
-        </div>
-        {transactions.map((transaction, index) => (
-          <TransactionRow
-            key={index}
-            txType={transaction.txType}
-            amount={transaction.amount}
-            category={transaction.category}
-            memo={transaction.memo}
-            counterparty={transaction.counterparty}
-            txDatetime={transaction.txDatetime}
-            hideAmount={hideAmount}
-          />
-        ))}
+        }
+      >
+        <TransactionList hideAmount={hideAmount} />
       </Panel>
       <Panel title="오늘의 환율">
         <ExchangeRate />
