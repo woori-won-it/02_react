@@ -8,6 +8,7 @@ import Header from "./components/Header.jsx";
 import { accounts, transactions } from "./data/mockData.js";
 import TransactionRow from "./components/TransactionRow.jsx";
 import TotalBalance from "./components/TotalBalance.jsx";
+import ExchangeRate from "./components/ExcahgeRate.jsx";
 
 function App() {
   // 화면이 렌더링 되기 위해 필요로 하는 값(data)을 적습니다.
@@ -40,6 +41,7 @@ function App() {
   return (
     <>
       {/* <Counter /> */}
+      <Clock />
       <Header />
       <div className="toolbar">
         <button
@@ -58,8 +60,7 @@ function App() {
       <Panel>
         <TotalBalance totalBalance={totalBalance} showBalance={showBalance} />
       </Panel>
-      {/* <Clock /> */}
-      <Panel title={"내 계좌"}>
+      <Panel title="내 계좌">
         {accountList.map((account) => (
           <AccountCard
             key={account.accountId}
@@ -73,7 +74,7 @@ function App() {
           />
         ))}
       </Panel>
-      <Panel title={"최근 거래"}>
+      <Panel title="최근 거래">
         <div className="toolbar">
           <button
             className="btn-ghost"
@@ -94,6 +95,9 @@ function App() {
             hideAmount={hideAmount}
           />
         ))}
+      </Panel>
+      <Panel title="오늘의 환율">
+        <ExchangeRate />
       </Panel>
     </>
   );
