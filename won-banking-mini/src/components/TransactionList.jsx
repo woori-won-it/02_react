@@ -40,7 +40,9 @@ function TransactionList({ hideAmount }) {
       (categoryFilter === "전체" || tx.category === categoryFilter),
   );
   const visibleTotal = visible.reduce((total, transaction) => {
-    return total + transaction.amount;
+    const signedAmount =
+      transaction.txType === "입금" ? transaction.amount : -transaction.amount;
+    return total + signedAmount;
   }, 0);
 
   function handlePointerDown(event) {
@@ -108,7 +110,7 @@ function TransactionList({ hideAmount }) {
         </div>
       </div>
       <div className="summary">
-        총 {visible.length}건 · 합계 {formatWon(visibleTotal)}
+        총 {visible.length}건 · 합계 {formatWon(Math.abs(visibleTotal))}
       </div>
       <div className="transaction-list">
         {visible.length > 0 ? (
