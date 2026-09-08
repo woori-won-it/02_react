@@ -20,13 +20,18 @@ function AccountCard({
       <p className="muted">
         {showFullNo ? accountNo : maskAccountNo(accountNo)}
       </p>
-      <strong className="balance">
-        {formatWonMasked(balance, showBalance)}
-      </strong>
-      <br />
-      <button className="btn" onClick={onDeposit} disabled={status !== "정상"}>
-        1만원 입금
-      </button>
+      <div className="row">
+        <strong className="balance">
+          {formatWonMasked(balance, showBalance)}
+        </strong>
+        <button
+          className="btn"
+          onClick={onDeposit}
+          disabled={status !== "정상"}
+        >
+          1만원 입금
+        </button>
+      </div>
     </div>
   );
 }
