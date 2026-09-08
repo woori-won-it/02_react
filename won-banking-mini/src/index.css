@@ -14,7 +14,7 @@
 
 /* 자주 쓰는 색을 변수로 모아뒀습니다. 색을 바꾸고 싶을 때 여기 한 곳만 고치면 됩니다. */
 :root {
-  --brand: #dc1655 !important;
+  --brand: #1668dc !important;
   --bg: #f4f5f7;
   --text: #1f1f1f;
   --muted: #8a8f98;
@@ -128,7 +128,7 @@ header h1 {
   border-bottom: 1px solid var(--line);
 }
 
-.tx-row:first-of-type {
+.toolbar + .tx-row {
   border-radius: 10px 10px 0 0;
 }
 
@@ -138,11 +138,11 @@ header h1 {
 }
 
 .amount-out {
-  color: var(--brand);
+  color: #dc1655;
 }
 
 .amount-in {
-  color: #1668dc;
+  color: var(--brand);
 }
 
 .tx-row > div:last-child {

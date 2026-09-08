@@ -9,6 +9,7 @@ function AccountCard({
   status,
   showFullNo,
   showBalance,
+  onDeposit,
 }) {
   return (
     <div className="card">
@@ -22,6 +23,10 @@ function AccountCard({
       <strong className="balance">
         {formatWonMasked(balance, showBalance)}
       </strong>
+      <br />
+      <button className="btn" onClick={onDeposit} disabled={status !== "정상"}>
+        1만원 입금
+      </button>
     </div>
   );
 }
