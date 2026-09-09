@@ -1,10 +1,8 @@
 // 사용할 컴포넌트, 함수, 변수 import
-import { useRef, useState } from "react";
+import { useState } from "react";
 import TransactionRow from "./TransactionRow";
 import Chip from "./Chip";
 import { formatWon } from "../utils/format.js";
-import { useFetch } from "../hooks/useFetch";
-import { fetchTransactions } from "../api/exchange";
 
 // 거래 종류 필터 옵션
 const TYPE_OPTIONS = ["전체", "입금", "출금"];
