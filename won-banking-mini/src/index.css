@@ -215,15 +215,9 @@ header h1 {
 .category-chips {
   width: 100%;
   min-width: 0;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
+  flex-wrap: wrap;
+  overflow: visible;
   padding-bottom: 4px;
-  touch-action: none;
-  overscroll-behavior: contain;
-  cursor: grab;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .category-chips::-webkit-scrollbar {
@@ -264,4 +258,27 @@ header h1 {
   font-size: 13px;
   color: var(--muted);
   margin-bottom: 8px;
+}
+
+.field {
+  display: flex;
+  gap: 10px;
+}
+
+.label-heading {
+  width: 100px;
+  color: var(--brand);
+  font-weight: bold;
+}
+
+.field input {
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 1px #d9d9d9;
+  padding: 5px;
+}
+
+.field input:focus {
+  border: none;
+  border-bottom: solid 1px var(--brand);
 }

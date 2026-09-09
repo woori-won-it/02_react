@@ -4,12 +4,16 @@ import Clock from "./components/Clock.jsx";
 import AccountCard from "./components/AccountCard.jsx";
 import Panel from "./components/Panel.jsx";
 import Header from "./components/Header.jsx";
-import { accounts } from "./data/mockData.js";
 import TotalBalance from "./components/TotalBalance.jsx";
 import ExchangeRate from "./components/ExcahgeRate.jsx";
 import TransactionList from "./components/TransactionList.jsx";
 import { UserProvider } from "./contexts/UserContext.jsx";
 import { StatusProvider } from "./contexts/StatusContext.jsx";
+import TransferForm from "./components/TransferForm.jsx";
+import {
+  transactions as initialTransactions,
+  accounts as initialAccounts,
+} from "./data/mockData.js";
 
 function App() {
   // 화면이 렌더링 되기 위해 필요로 하는 값(data)을 적습니다.
@@ -19,11 +23,16 @@ function App() {
   const [showFullNo, setShowFullNo] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
   const [hideAmount, setHideAmound] = useState(false);
-  const [accountList, setAccountList] = useState(() => accounts);
+  const [accountList, setAccountList] = useState(() => initialAccounts);
   const totalBalance = accountList.reduce(
     (total, account) => total + account.balance,
     0,
   );
+  const [accounts, setAccounts] = useState(initialAccounts);
+  // 추가: 이 state 가 바뀌고, 그 값을 props 로 받는 TransactionList가 그려집니다
+  // 거래내역을 처음에 한 번 전체 정보로 불러와서 여러 하위 컴포넌트를 감싼다
+  const [transactions, setTransactions] = useState(initialTransactions);
+
   // accounts의 특정 위치의 balance를 변경하는 함수
   // accountId라는 고유key로 특정 고객의 balance를 변경
   // 입력받은 accountId가 일치하는 고객의 계좌 dict에서만
@@ -37,11 +46,38 @@ function App() {
     );
   }
 
+  // 추가: 이체 폼(TransferForm)에서 이체 버튼을 누르면 이 함수가 실행됩니다.
+  // 계좌 잔액과 거래내역, 이 두 state 를 한 번에 갱신하는 것이 이번 세션의 핵심입니다.
+  function handleTransfer({ toAccount, amount, memo }) {
+    const from = accounts[0];
+    const nextBalance = from.balance - amount;
+
+    setAccounts((prev) =>
+      prev.map((a) =>
+        a.accountId === from.accountId ? { ...a, balance: nextBalance } : a,
+      ),
+    );
+
+    setTransactions((prev) => [
+      {
+        txId: Date.now(), // 현재 시간 UNIXTIME으로 timestamp
+        accountId: from.accountId,
+        txType: "출금",
+        amount,
+        balanceAfter: nextBalance,
+        category: "이체",
+        memo: memo || "이체",
+        counterparty: toAccount,
+        txDatetime: new Date().toISOString().slice(0, 19),
+      },
+      ...prev, // 새 거래를 맨 앞에
+    ]);
+  }
+
   // return ( ) 바깥에서는 일반 자바스크립트처럼 // 로 주석을 적습니다.
   // return 뒤에 렌더링 될 부분을 적습니다.
   return (
     <>
-      {/* <Counter /> */}
       <UserProvider user={{ name: "김연지", grade: "우수" }}>
         <Clock />
         <Header />
@@ -59,6 +95,9 @@ function App() {
             {showBalance ? "금액 보기" : "금액 숨기기"}
           </button>
         </div>
+        <Panel title="이체">
+          <TransferForm fromAccount={accounts[0]} onTransfer={handleTransfer} />
+        </Panel>
         <TotalBalance totalBalance={totalBalance} showBalance={showBalance} />
         <Panel title="내 계좌">
           {accountList.map((account) => (
@@ -85,7 +124,10 @@ function App() {
             </button>
           }
         >
-          <TransactionList hideAmount={hideAmount} />
+          <TransactionList
+            transactions={transactions}
+            hideAmount={hideAmount}
+          />
         </Panel>
         <Panel title="오늘의 환율">
           <ExchangeRate />
