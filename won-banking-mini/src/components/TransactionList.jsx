@@ -1,9 +1,10 @@
 // 사용할 컴포넌트, 함수, 변수 import
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import TransactionRow from "./TransactionRow";
-import { transactions } from "../data/mockData.js";
 import Chip from "./Chip";
 import { formatWon } from "../utils/format.js";
+import { useFetch } from "../hooks/useFetch";
+import { fetchTransactions } from "../api/exchange";
 
 // 거래 종류 필터 옵션
 const TYPE_OPTIONS = ["전체", "입금", "출금"];
@@ -23,16 +24,13 @@ const CATEGORY_OPTIONS = [
 function TransactionList({ hideAmount }) {
   const [typeFilter, setTypeFilter] = useState("전체");
   const [categoryFilter, setCategoryFilter] = useState("전체");
-  const [loading, setLoading] = useState(true);
   const categoryChipsRef = useRef(null);
   const dragStartRef = useRef({ x: 0, scrollLeft: 0 });
   const draggedRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 300);
-    return () => clearTimeout(timer);
-  }, []);
+  const { data, loading, error, reload } = useFetch(fetchTransactions);
+  const transactions = data ?? [];
 
   const visible = transactions.filter(
     (tx) =>
@@ -76,6 +74,12 @@ function TransactionList({ hideAmount }) {
   }
 
   if (loading) return <p className="muted">거래 내역을 불러오는 중...</p>;
+  if (error)
+    return (
+      <button className="btn" onClick={reload}>
+        다시 시도
+      </button>
+    );
 
   return (
     <>
