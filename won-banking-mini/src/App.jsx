@@ -23,12 +23,11 @@ function App() {
   const [showFullNo, setShowFullNo] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
   const [hideAmount, setHideAmound] = useState(false);
-  const [accountList, setAccountList] = useState(() => initialAccounts);
+  const [accountList, setAccountList] = useState(initialAccounts);
   const totalBalance = accountList.reduce(
     (total, account) => total + account.balance,
     0,
   );
-  const [accounts, setAccounts] = useState(initialAccounts);
   // 추가: 이 state 가 바뀌고, 그 값을 props 로 받는 TransactionList가 그려집니다
   // 거래내역을 처음에 한 번 전체 정보로 불러와서 여러 하위 컴포넌트를 감싼다
   const [transactions, setTransactions] = useState(initialTransactions);
@@ -49,10 +48,10 @@ function App() {
   // 추가: 이체 폼(TransferForm)에서 이체 버튼을 누르면 이 함수가 실행됩니다.
   // 계좌 잔액과 거래내역, 이 두 state 를 한 번에 갱신하는 것이 이번 세션의 핵심입니다.
   function handleTransfer({ toAccount, amount, memo }) {
-    const from = accounts[0];
+    const from = accountList[0];
     const nextBalance = from.balance - amount;
 
-    setAccounts((prev) =>
+    setAccountList((prev) =>
       prev.map((a) =>
         a.accountId === from.accountId ? { ...a, balance: nextBalance } : a,
       ),
@@ -96,7 +95,10 @@ function App() {
           </button>
         </div>
         <Panel title="이체">
-          <TransferForm fromAccount={accounts[0]} onTransfer={handleTransfer} />
+          <TransferForm
+            fromAccount={accountList[0]}
+            onTransfer={handleTransfer}
+          />
         </Panel>
         <TotalBalance totalBalance={totalBalance} showBalance={showBalance} />
         <Panel title="내 계좌">
