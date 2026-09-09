@@ -1,3 +1,5 @@
+import { useStatus } from "../contexts/StatusContext.jsx";
+
 const colors = {
   정상: "#30ec78",
   휴면: "#d9d9d9",
@@ -6,7 +8,9 @@ const colors = {
 };
 
 // inline - style = {{key:value}} 형태로
-function StatusBadge({ status }) {
+function StatusBadge() {
+  const status = useStatus();
+
   return (
     <span className="badge" style={{ backgroundColor: colors[status] }}>
       {status}

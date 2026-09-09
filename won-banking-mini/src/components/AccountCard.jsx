@@ -1,21 +1,23 @@
 // components/AccountCard.jsx
 import StatusBadge from "./StatusBadge";
 import { maskAccountNo, formatWonMasked } from "../utils/format";
+import { useStatus } from "../contexts/StatusContext.jsx";
 
 function AccountCard({
   accountNo,
   accountType,
   balance,
-  status,
   showFullNo,
   showBalance,
   onDeposit,
 }) {
+  const status = useStatus();
+
   return (
     <div className="card">
       <div className="row">
         <span className="muted">{accountType}</span>
-        <StatusBadge status={status} />
+        <StatusBadge />
       </div>
       <p className="muted">
         {showFullNo ? accountNo : maskAccountNo(accountNo)}

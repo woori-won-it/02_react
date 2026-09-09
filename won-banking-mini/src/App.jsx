@@ -8,6 +8,8 @@ import { accounts } from "./data/mockData.js";
 import TotalBalance from "./components/TotalBalance.jsx";
 import ExchangeRate from "./components/ExcahgeRate.jsx";
 import TransactionList from "./components/TransactionList.jsx";
+import { UserProvider } from "./contexts/UserContext.jsx";
+import { StatusProvider } from "./contexts/StatusContext.jsx";
 
 function App() {
   // 화면이 렌더링 되기 위해 필요로 하는 값(data)을 적습니다.
@@ -40,55 +42,55 @@ function App() {
   return (
     <>
       {/* <Counter /> */}
-      <Clock />
-      <Header />
-      <div className="toolbar">
-        <button
-          className="btn-ghost"
-          onClick={() => setShowFullNo(!showFullNo)}
-        >
-          {showFullNo ? "계좌번호 숨기기" : "계좌번호 보기"}
-        </button>
-        <button
-          className="btn-ghost"
-          onClick={() => setShowBalance(!showBalance)}
-        >
-          {showBalance ? "금액 보기" : "금액 숨기기"}
-        </button>
-      </div>
-      <Panel>
-        <TotalBalance totalBalance={totalBalance} showBalance={showBalance} />
-      </Panel>
-      <Panel title="내 계좌">
-        {accountList.map((account) => (
-          <AccountCard
-            key={account.accountId}
-            accountNo={account.accountNo}
-            accountType={account.accountType}
-            balance={account.balance}
-            status={account.status}
-            showFullNo={showFullNo}
-            showBalance={showBalance}
-            onDeposit={() => handleDeposit(account.accountId)}
-          />
-        ))}
-      </Panel>
-      <Panel
-        title="최근 거래"
-        action={
+      <UserProvider user={{ name: "김연지", grade: "우수" }}>
+        <Clock />
+        <Header />
+        <div className="toolbar">
           <button
             className="btn-ghost"
-            onClick={() => setHideAmound(!hideAmount)}
+            onClick={() => setShowFullNo(!showFullNo)}
           >
-            {hideAmount ? "금액 보기" : "금액 숨기기"}
+            {showFullNo ? "계좌번호 숨기기" : "계좌번호 보기"}
           </button>
-        }
-      >
-        <TransactionList hideAmount={hideAmount} />
-      </Panel>
-      <Panel title="오늘의 환율">
-        <ExchangeRate />
-      </Panel>
+          <button
+            className="btn-ghost"
+            onClick={() => setShowBalance(!showBalance)}
+          >
+            {showBalance ? "금액 보기" : "금액 숨기기"}
+          </button>
+        </div>
+        <TotalBalance totalBalance={totalBalance} showBalance={showBalance} />
+        <Panel title="내 계좌">
+          {accountList.map((account) => (
+            <StatusProvider key={account.accountId} status={account.status}>
+              <AccountCard
+                accountNo={account.accountNo}
+                accountType={account.accountType}
+                balance={account.balance}
+                showFullNo={showFullNo}
+                showBalance={showBalance}
+                onDeposit={() => handleDeposit(account.accountId)}
+              />
+            </StatusProvider>
+          ))}
+        </Panel>
+        <Panel
+          title="최근 거래"
+          action={
+            <button
+              className="btn-ghost"
+              onClick={() => setHideAmound(!hideAmount)}
+            >
+              {hideAmount ? "금액 보기" : "금액 숨기기"}
+            </button>
+          }
+        >
+          <TransactionList hideAmount={hideAmount} />
+        </Panel>
+        <Panel title="오늘의 환율">
+          <ExchangeRate />
+        </Panel>
+      </UserProvider>
     </>
   );
 }
